@@ -55,7 +55,7 @@ export const Styles = createGlobalStyle`
     h2,
     h3,
     h4,
-    h5,
+		h5,
     h6 {
         font-family: 'Motiva Sans Bold', serif;
         color: #18216d;
@@ -70,6 +70,10 @@ export const Styles = createGlobalStyle`
           font-size: 32px;
         }
     }
+
+		h5 {
+			font-size: 32px;
+		}
 
     p {
         color: #18216d;
