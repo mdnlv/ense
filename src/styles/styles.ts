@@ -113,4 +113,8 @@ export const Styles = createGlobalStyle`
     .ant-drawer-content-wrapper {
         width: 300px !important;
     }
+
+		.plyr__control {
+
+		}
 `;

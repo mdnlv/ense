@@ -6,7 +6,7 @@ import { Fade } from "react-awesome-reveal";
 import Plyr, { APITypes } from 'plyr-react'
 import 'plyr-react/dist/plyr.css'
 import { List } from 'antd';
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import {
   LeftContentSection,
@@ -79,19 +79,10 @@ const PesniGoda = ({
   t,
   id,
 }: ContentBlockProps) => {
-	const ref = useRef<APITypes>(null);
 
-  const playAudio = () => {
-    (ref.current?.plyr as Plyr)?.play();
-		(ref.current?.plyr as Plyr).on('ended', () => {
-			let next = Number(String(ref.current?.plyr.source).slice(-6, -4));
-			if(next < 10) {
-				changeOnDemandSong(tracks.sources[next].src, tracks.sources[next].title, tracks.sources[next].type); 
-				setTimeout(playAudio, 500);
-			} 
-		});
-  };
-	const [currentTrackSrc, setCurrentTrackSrc] = useState(tracks.sources[0])
+	const ref = useRef<APITypes>(null);
+	const [currentTrackSrc, setCurrentTrackSrc] = useState(tracks.sources[0]);
+	const [numberTrack, setNumberTrack] = useState('00');
 	const [audioSrc, setAudioSrc] = useState({
 		type: 'audio',
 		sources: [
@@ -103,8 +94,24 @@ const PesniGoda = ({
 		]
 	});
 
+	const playAudio = () => {
+    (ref.current?.plyr as Plyr)?.play();	
+		let t = Number(String(ref.current?.plyr.source).slice(-6, -4));
+		//numberTrack === '00' && setNumberTrack('01');
+		(ref.current?.plyr as Plyr).on('ended', () => {
+			if(t < 10) {
+				changeOnDemandSong(tracks.sources[t].src, tracks.sources[t].title, tracks.sources[t].type); 
+				setTimeout(playAudio, 500);
+			} else {
+				changeOnDemandSong(tracks.sources[0].src, tracks.sources[0].title, tracks.sources[0].type); 
+			}
+		});
+  };
+
 	const changeOnDemandSong = (newSong: any, newSongTitle: any, newType: any) => {
+		setNumberTrack(newSong.slice(-6, -4));
 		setCurrentTrackSrc(newSong);
+		
 		setAudioSrc({
 			type: 'audio',
 			sources: [
@@ -117,62 +124,49 @@ const PesniGoda = ({
 		});
 	}
 
-
-
-  useEffect(() => {
-    function addListener() {
-      console.log(ref.current?.plyr);
-      (ref.current?.plyr as Plyr).on('ready', (event) => {
-        console.log(event);
-        alert("Play ended");
-      });
-
-			(ref.current?.plyr as Plyr).on('playing', (event) => {
-				console.log(event);
-			});
-    }
-
-    if (ref.current?.plyr.source === null) setTimeout(addListener, 300);
-    else addListener();
-
-		
-  });
-
   return (
     <LeftContentSection>
+
       <Fade direction="left">
         <Row justify="space-between" align="middle" id={id}>
           <Col lg={11} md={11} sm={12} xs={24}>
-            <Img src={'svg/cover.jpg'} width="100%" height="100%" />
+            <Img src={'covers/'+ numberTrack  +'.jpg'} width="100%" height="100%" />
           </Col>
           <Col lg={11} md={11} sm={11} xs={24}>
             <ContentWrapper>
               <h5>{'Песни Года'}</h5>
               <Content>
-              <List
-                size="small"
-								className="ondemand-plList"
-                bordered
-                dataSource={tracks.sources}
-                renderItem={item => <List.Item className="plItem" style={{background: "#fff", cursor: "pointer"}} onClick={() => { 					
-										changeOnDemandSong(item.src, item.title, item.type); 
-										setTimeout(playAudio, 500);
-									}}>
-										{item.title}
-								</List.Item>}
-              />
-
-								{/*<div className="">{audioSrc.sources[0].title}</div>*/}					
-
-							  <Plyr
+								<List
+									size="small"
+									className="ondemand-plList"
+									bordered
+									dataSource={tracks.sources}
+									renderItem={item => 
+										<List.Item 
+											className="plItem" 
+											style={(item.src.slice(-6, -4) === numberTrack) ? {background: "#d3e5f6", cursor: "pointer"} : {background: "#fff", cursor: "pointer", display: "flex"}} 
+											onClick={() => {
+												if(item.src.slice(-6, -4) !== numberTrack ) {
+													changeOnDemandSong(item.src, item.title, item.type); 
+													setTimeout(playAudio, 500);
+												} else {
+													(ref.current?.plyr as Plyr)?.togglePlay();
+												}
+											}}
+										>
+												{item.title} 
+												{(item.src.slice(-6, -4) !== numberTrack) && <Img src={'svg/plyr-play.svg'} width="12px" height="12px" />}
+										</List.Item>
+									}
+								/>		
+								<Plyr
 									ref={ref}
-                  source={audioSrc as any}
+									source={audioSrc as any}
 									options={{
 										controls: ['play', 'progress', 'current-time', 'volume'],
 										settings: ['captions']
 									} as any}
-									
-                />
+								/>
               </Content>
               <ServiceWrapper>
 								<Row justify="space-between">

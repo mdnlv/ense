@@ -11,7 +11,7 @@ export const HeaderSection = styled("header")`
   }
 `;
 
-export const LogoContainer = styled(Link)`
+export const LogoContainer = styled("div")`
   display: flex;
 `;
 

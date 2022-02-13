@@ -45,7 +45,7 @@ const Header = ({ t }: any) => {
           <Span>{t("Опен-колл")}</Span>
         </CustomNavLinkSmall>
 
-        <CustomNavLinkSmall onClick={() => scrollTo("contacts")}>
+        <CustomNavLinkSmall onClick={() => scrollTo("open")}>
           <Span>{t("Контакты")}</Span>
         </CustomNavLinkSmall>
       </>
@@ -56,8 +56,8 @@ const Header = ({ t }: any) => {
     <HeaderSection>
       <Container>
         <Row justify="space-between">
-          <LogoContainer to="/" aria-label="homepage">
-            <Img src="svg/logo.svg" width="301px" height="64px" />
+          <LogoContainer aria-label="homepage">
+            <Img src="svg/logo.svg" width="250px" height="60px" />
           </LogoContainer>
           <NotHidden>
             <MenuItem />

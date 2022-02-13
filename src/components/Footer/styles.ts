@@ -73,12 +73,12 @@ export const Chat = styled("p")`
   max-width: fit-content;
   border-bottom: 1px solid #18216d;
   cursor: pointer;
-  margin-top: 1rem;
+  margin-top: -0.5rem;
   transition: all 0.3s ease-in-out;
 
   &:hover {
-    border-bottom: 1px solid rgb(255, 130, 92);
-    color: rgb(255, 130, 92);
+    border-bottom: 1px solid #b65d5d;
+    color: #b65d5d;
   }
 `;
 
@@ -92,8 +92,8 @@ export const FooterContainer = styled("div")`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  text-align: center;
-  align-items: center;
+  text-align: right;
+  align-items: right;
   transition: all 0.1s ease-in-out;
 
   a {
@@ -116,9 +116,7 @@ export const FooterContainer = styled("div")`
 
   div {
     cursor: pointer;
-    margin-right: 15px;
-    width: 25px;
-    height: 25px;
+    margin-right: 5px;
 
     &:hover {
       fill: rgb(255, 130, 92);
@@ -130,9 +128,9 @@ export const Language = styled("h4")`
   font-size: 22px;
   text-transform: capitalize;
   color: #18216d;
-
+	margin-top: -0.5rem;
   @media screen and (max-width: 414px) {
-    padding: 1.5rem 0;
+    padding: 0;
   }
 `;
 
@@ -169,30 +167,17 @@ export const LanguageSwitchContainer = styled("div")`
   width: 85px;
 `;
 
-export const Block = styled("div")` 
-  display: flex;
-  align-self:flex-end;
-
-  @media screen and (max-width: 1128px) {
-    display: flex;
-    align-self:center;
-  }
-
-  @media screen and (max-width: 480px) {
-    display: flex;
-    align-self:center;
-  }
-`;
-
 
 export const AppIcon = styled("img")` 
   width: 40px;
 `;
 
 export const AppBtn = styled("div")` 
-  margin-right: 10px;
+  margin-left: 10px;
   align-self: flex-end;
-  width: 40px;
+	&:hover {
+		opacity: 0.2;
+	}
 `;
 
 export const AppFooter = styled("div")` {
